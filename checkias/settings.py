@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'authentication',
     'user_profile',
     'mail',
+    'topperscopy',
     
     
 ]

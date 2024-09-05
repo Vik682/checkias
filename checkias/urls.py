@@ -23,5 +23,7 @@ urlpatterns = [
     path('auth/',include('authentication.urls')),
     path('mail/',include('mail.urls')),
     path('user_profile/',include('user_profile.urls')),
+    path('tp_copy/',include('topperscopy.urls')),
+    
     
 ]
