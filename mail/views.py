@@ -21,7 +21,7 @@ sender_email = ''
 
 # Email content
 
-sender_email = ''
+sender_email = 'surajschoolfanclub@gmail.com'
 subject = 'Verif. otp-Checkias'
 
 
