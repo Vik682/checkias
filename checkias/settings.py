@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-lq*vq55#bra1^m7#vrfss&3gx+9!+ft9oqjwjdq(pfwswghnw(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://localhost:3000','localhost']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'authentication',
+    'corsheaders',
     'user_profile',
     'mail',
     'topperscopy',
@@ -55,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'checkias.urls'
@@ -131,3 +133,27 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Adjust as necessary
+]
+
+
+
+
+
+
+
+'''REST_FRAMEWORK = {
+    # Only enable JSON renderer by default.
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '10/minute',
+
+    }
+}'''

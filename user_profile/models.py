@@ -98,11 +98,11 @@ class Evaluator(models.Model):
 ]
 
   name = models.CharField(max_length=30,blank=True)
-  phone_number = models.IntegerField(max_length=11,blank=True,default=0)
+  phone_number = models.IntegerField(blank=True,default=0)
   date_of_birth = models.DateField(null = True, blank = True)
-  Num_of_Prelims=models.IntegerField(max_length=2,blank=True,default=0)
-  Num_of_Mains=models.IntegerField(max_length=2,blank=True,default=0)
-  Num_of_Interviews=models.IntegerField(max_length=2,blank=True,default=0)
+  Num_of_Prelims=models.IntegerField(blank=True,default=0)
+  Num_of_Mains=models.IntegerField(blank=True,default=0)
+  Num_of_Interviews=models.IntegerField(blank=True,default=0)
   medium = models.CharField(max_length=50,choices=medium,default='english')
   profile_image = models.ImageField(upload_to='profile_images/',blank=True)
   optional=models.CharField(max_length=90,choices=option_sub,default='Not Selected')
