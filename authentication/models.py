@@ -47,17 +47,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
-    # Add related_name to avoid conflicts with the built-in User model
-    groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='custom_user_set',
-        blank=True
-    )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='custom_user_set',
-        blank=True
-    )
+
 
 class UserToken(models.Model):
     key = models.CharField("Key", max_length=40, primary_key=True)

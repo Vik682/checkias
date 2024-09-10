@@ -45,8 +45,15 @@ INSTALLED_APPS = [
     'mail',
     'topperscopy',
     
-    
+
 ]
+AUTH_USER_MODEL = 'authentication.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'authentication.backends.UserAuthenticationBackend',
+    )
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
