@@ -3,7 +3,6 @@ import os
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 from user_profile.models import Student
 from checkias import settings
 from .managers import CustomUserManager
@@ -19,31 +18,16 @@ USER_ROLES = {
 }
 
 class User(AbstractBaseUser, PermissionsMixin):
-    ROLE_CHOICES = (
-        (USER_ROLES['student'], _('Student')),
-        (USER_ROLES['coaching'], _('Coaching')),
-        (USER_ROLES['evaluator'], _('Evaluator')),
-        (USER_ROLES['reviewer'], _('Reviewer')),
-        (USER_ROLES['enquiry'], _('Enquiry')),
-        (USER_ROLES['admin'], _('Admin')),
-        (USER_ROLES['superuser'], _('Superuser')),
-    )
 
     email = models.EmailField(
         unique=True,
         editable=False,
-        verbose_name=_('Email Address'),
+        verbose_name=('Email Address'),
         primary_key=True
     )
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
     profile = models.OneToOneField(Student, on_delete=models.CASCADE, null=True)
-    role = models.PositiveSmallIntegerField(
-        choices=ROLE_CHOICES,
-        blank=True,
-        null=True,
-        default=USER_ROLES['student']
-    )
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
@@ -57,8 +41,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
     class Meta:
-        verbose_name = _('user')
-        verbose_name_plural = _('users')
+        verbose_name = ('user')
+        verbose_name_plural = ('users')
 
     def __str__(self):
         return self.email
@@ -76,19 +60,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
 class UserToken(models.Model):
-    key = models.CharField(_("Key"), max_length=40, primary_key=True)
+    key = models.CharField("Key", max_length=40, primary_key=True)
     user = models.OneToOneField(
         User,
         related_name='user_token',
         on_delete=models.CASCADE,
-        verbose_name=_("User")
+        verbose_name=("User")
     )
-    created = models.DateTimeField(_("Created"), auto_now_add=True)
+    created = models.DateTimeField("Created", auto_now_add=True)
 
     class Meta:
         abstract = 'rest_framework.authtoken' not in settings.INSTALLED_APPS
-        verbose_name = _("User Token")
-        verbose_name_plural = _("User Tokens")
+        verbose_name = ("User Token")
+        verbose_name_plural = ("User Tokens")
 
     def save(self, *args, **kwargs):
         if not self.key:
