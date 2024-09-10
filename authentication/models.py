@@ -3,7 +3,7 @@ import os
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
-from user_profile.models import Student
+from user_profile.models import Student,Coaching,Evaluator,Reviewer,Enquiry,Admin,Superuser
 from checkias import settings
 from .managers import CustomUserManager
 
