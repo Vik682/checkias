@@ -4,16 +4,11 @@ from django.db import models
 
 #profile of Student
 class Student(models.Model):
-  STATUS_CHOICES = [
-        ('2026', '2026'),
-        ('2027', '2027'),
-        ('after 2027', 'After 2027'),
-    ]
   medium=[('english','English'),
           ('hindi','Hindi')]
   name = models.CharField(max_length=30,blank=True)
   phone_number = models.CharField(max_length=20,blank=True)
-  attempt=models.CharField(max_length=50,choices=STATUS_CHOICES,default='2026')
+  attempt=models.CharField(max_length=50)
   date_of_birth = models.DateField(null = True, blank = True)
   medium = models.CharField(max_length=50,choices=medium,default='english')
   profile_image = models.ImageField(upload_to='profile_images/',blank=True)
@@ -24,16 +19,11 @@ class Student(models.Model):
   
 #profile of Coaching
 class Coaching(models.Model):
-  STATUS_CHOICES = [
-        ('2026', '2026'),
-        ('2027', '2027'),
-        ('after 2027', 'After 2027'),
-    ]
   medium=[('english','English'),
           ('hindi','Hindi')]
   name = models.CharField(max_length=30,blank=True)
   phone_number = models.CharField(max_length=20,blank=True)
-  attempt=models.CharField(max_length=50,choices=STATUS_CHOICES,default='2026')
+  attempt=models.CharField(max_length=50)
   date_of_birth = models.DateField(null = True, blank = True)
   medium = models.CharField(max_length=50,choices=medium,default='english')
   profile_image = models.ImageField(upload_to='profile_images/',blank=True)
