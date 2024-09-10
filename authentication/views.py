@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 
-class ValidateOTPView(APIView):
+class ValidateView(APIView):
     def post(self, request, *args, **kwargs):
         # Parse the incoming request data
         serializer = OTPSerializer(data=request.data)

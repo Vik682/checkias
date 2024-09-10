@@ -1,7 +1,7 @@
 import binascii
 import os
 from django.db import models
-from django.contrib.auth.models import AbstractUser, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from user_profile.models import Student
@@ -18,7 +18,7 @@ USER_ROLES = {
     'superuser': 7,
 }
 
-class User(AbstractUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
     ROLE_CHOICES = (
         (USER_ROLES['student'], _('Student')),
         (USER_ROLES['coaching'], _('Coaching')),

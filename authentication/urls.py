@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path,include
-from .views import ValidateOTPView
+from .views import ValidateView
 
 urlpatterns = [
-    path('validate/', ValidateOTPView.as_view(), name='validatae-otp'),
+    path('validate/', ValidateView.as_view(), name='validatae-otp'),
     ]
