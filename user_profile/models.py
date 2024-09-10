@@ -12,7 +12,6 @@ class Student(models.Model):
   date_of_birth = models.DateField(null = True, blank = True)
   medium = models.CharField(max_length=50,choices=medium,default='english')
   profile_image = models.ImageField(upload_to='profile_images/',blank=True)
-  courseenroll=models.CharField(max_length=1000,blank=True)
 
   def __str__(self):
     return self.name
@@ -27,7 +26,6 @@ class Coaching(models.Model):
   date_of_birth = models.DateField(null = True, blank = True)
   medium = models.CharField(max_length=50,choices=medium,default='english')
   profile_image = models.ImageField(upload_to='profile_images/',blank=True)
-  courseenroll=models.CharField(max_length=1000,blank=True)
 
   def __str__(self):
     return self.name
