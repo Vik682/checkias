@@ -4,10 +4,10 @@ from authentication.models import  User, UserToken
 from authentication.serializers import  UserSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-#from google.auth.transport import requests
-#from google.oauth2 import id_token
-from rest_framework import exceptions
+from rest_framework import status, exceptions
+from rest_framework.response import Response
+from mail.models import OTP
+from mail.serializers import OTPSerializer
 
 
 # Set the project base directory
@@ -15,57 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 
-
-'''class ObtainIdTokenView(APIView):
-    permission_classes = []
-
-    def post(self, request):
-        credentials = json.loads(request.body.decode('utf-8'))
-        idToken = credentials.get('idToken')
-
-        if not idToken:
-            return Response(status=400, data='Email field is empty')
-
-        try:
-            decoded_token = id_token.verify_oauth2_token(
-                idToken, requests.Request(), ('GOOGLE_OAUTH_CLIENT_ID'))
-        except Exception:
-            raise exceptions.AuthenticationFailed('Invalid ID Token')
-
-        try:
-            email = decoded_token.get("email")
-            first_name = decoded_token.get("given_name").capitalize()
-            last_name = decoded_token.get("family_name").capitalize()
-
-        except Exception:
-            raise exceptions.AuthenticationFailed('No such user exists')
-
-        user, _ = User.objects.get_or_create(email=email, first_name = first_name, last_name = last_name)
-
-        token, _ = UserToken.objects.get_or_create(user=user)
-
-        askForDetails = True
-
-        if user.profile:
-            askForDetails = False
-
-        return Response(status = 200, data = {
-            'idToken': token.key,
-            'askForDetails': askForDetails,
-            'user': UserSerializer(user).data
-        })'''
-        
-        
-        
-        
-from rest_framework import status, views, exceptions
-from rest_framework.response import Response
-from .models import User, UserToken
-from mail.models import OTP
-from .serializers import UserSerializer
-from mail.serializers import OTPSerializer
-
-class ValidateOTPView(views.APIView):
+class ValidateOTPView(APIView):
     def post(self, request, *args, **kwargs):
         # Parse the incoming request data
         serializer = OTPSerializer(data=request.data)
