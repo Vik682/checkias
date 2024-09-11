@@ -41,6 +41,8 @@ def sendmail(receiver_email, body):
 
 class CreateOTPView(views.APIView):
     def post(self, request, *args, **kwargs):
+        # [Ashu] python debug support
+        import pdb; pdb.set_trace()
         email = request.data.get('email')
         if not email:
             return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
@@ -56,16 +58,22 @@ class CreateOTPView(views.APIView):
         
         # Send OTP email
         email_body = f'Your OTP code is {otp}. It is valid for 10 minutes.'
-        sendmail(receiver_email=email, body=email_body)
+        # [Ashu] commented bottom line to avoid sending mail
+        print(email_body)
+        #sendmail(receiver_email=email, body=email_body)
         
         return Response({'message': 'OTP sent successfully'}, status=status.HTTP_200_OK)
 
 class ValidateOTPView(views.APIView):
     def post(self, request, *args, **kwargs):
+        # [Ashu] python debug support
+        import pdb; pdb.set_trace()
         serializer = OTPSerializer(data=request.data)
         if serializer.is_valid():
             email = serializer.validated_data['email']
             otp = serializer.validated_data['otp']
+            # [Ashu] checking validation status
+            print("[ValidateOTPView]:",email,otp)
             
             try:
                 otp_instance = OTP.objects.get(email=email, otp=otp, is_deleted=False)

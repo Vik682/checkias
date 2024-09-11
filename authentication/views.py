@@ -67,6 +67,8 @@ from mail.serializers import OTPSerializer
 
 class ValidateOTPView(views.APIView):
     def post(self, request, *args, **kwargs):
+        # [Ashu] python debug support
+        import pdb; pdb.set_trace()
         # Parse the incoming request data
         serializer = OTPSerializer(data=request.data)
         

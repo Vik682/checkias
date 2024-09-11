@@ -1,12 +1,29 @@
 import binascii
 import os
 from django.db import models
-from django.contrib.auth.models import AbstractUser, PermissionsMixin
+from django.contrib.auth.models import AbstractUser, AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from user_profile.models import Student
 from checkias import settings
 from .managers import CustomUserManager
+
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        return self.create_user(email, password, **extra_fields)
 
 USER_ROLES = {
     'student': 1,
@@ -18,7 +35,7 @@ USER_ROLES = {
     'superuser': 7,
 }
 
-class User(AbstractUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
     ROLE_CHOICES = (
         (USER_ROLES['student'], _('Student')),
         (USER_ROLES['coaching'], _('Coaching')),
@@ -35,8 +52,8 @@ class User(AbstractUser, PermissionsMixin):
         verbose_name=_('Email Address'),
         primary_key=True
     )
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=50, blank=True)
+    first_name = models.CharField(max_length=30, blank=True,  null=True)
+    last_name = models.CharField(max_length=50, blank=True,  null=True)
     profile = models.OneToOneField(Student, on_delete=models.CASCADE, null=True)
     role = models.PositiveSmallIntegerField(
         choices=ROLE_CHOICES,
