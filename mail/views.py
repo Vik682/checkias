@@ -5,14 +5,7 @@ from .serializers import OTPSerializer
 import smtplib, random
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
-# Email account credentials
-smtp_server = 'smtp.gmail.com'
-smtp_port = 587
-username = ''  # fill sender code
-password = ''  # fill sender passcode
-sender_email = ''
-
+from mail.credentials import smtp_port,smtp_server,username,password,sender_email
 def generate_new_otp(length=4):
     """Generate a new OTP with a specified length."""
     digits = '0123456789'
