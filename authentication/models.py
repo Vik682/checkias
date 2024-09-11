@@ -1,11 +1,25 @@
-import binascii
-import os
+import binascii,os
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
 from user_profile.models import Student,Coaching,Evaluator,Reviewer,Enquiry,Admin,Superuser
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from checkias import settings
 from .managers import CustomUserManager
+
+
+ALLOWED_PROFILE_MODELS = {
+    'student': 'Student',
+    'coaching': 'Coaching',
+    'evaluator': 'Evaluator',
+    'reviewer': 'Reviewer',
+    'enquiry': 'Enquiry',
+    'admin': 'Admin',
+    'superuser': 'Superuser',
+}
+
+
 
 USER_ROLES = {
     'student': 1,
@@ -27,7 +41,23 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
-    profile = models.OneToOneField(Student, on_delete=models.CASCADE, null=True)
+    
+    profile_content_type = models.ForeignKey(
+    ContentType,
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=True,
+    related_name='user_profiles'
+    )
+    profile_id = models.PositiveIntegerField(null=True, blank=True)
+    profile = GenericForeignKey('profile_content_type', 'profile_id')
+    
+    profile_type = models.CharField(
+        max_length=20,
+        choices=[(key, value) for key, value in ALLOWED_PROFILE_MODELS.items()],
+        null=True,
+        blank=True
+    )
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
@@ -47,17 +77,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
-    # Add related_name to avoid conflicts with the built-in User model
+# Add related_name to avoid conflicts with the built-in User model
     groups = models.ManyToManyField(
         'auth.Group',
-        related_name='custom_user_set',
+        related_name='custom_user_set',  # Use a unique related_name
         blank=True
     )
     user_permissions = models.ManyToManyField(
         'auth.Permission',
-        related_name='custom_user_set',
+        related_name='custom_user_set',  # Use a unique related_name
         blank=True
-    )
+        )
 
 class UserToken(models.Model):
     key = models.CharField("Key", max_length=40, primary_key=True)
