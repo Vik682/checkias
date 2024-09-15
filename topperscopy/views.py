@@ -3,11 +3,11 @@ from topperscopy.models import TopperCopyModel,TopperReviewModel
 from topperscopy.serializers import TopperCopySerializer, TopperReviewSerializer
 from rest_framework.views import APIView
 from rest_framework import status
-from authentication.permissions import IsStudent
-from rest_framework.permissions import IsAuthenticated
+# from authentication.permissions import IsStudent
+# from rest_framework.permissions import IsAuthenticated
 
 class TopperCopyView(APIView):
-    permission_classes = [IsAuthenticated,IsStudent]
+    # permission_classes = [IsAuthenticated,IsStudent]
     def post(self, request, format=None):
         serializer = TopperCopySerializer(data=request.data)
         if serializer.is_valid():

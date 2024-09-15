@@ -3,12 +3,12 @@ from django.http import FileResponse
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from user_profile.serializers import StudentSerializer
-#from authentication.models import User
-#from authentication.backends import UserAuthenticationBackend
-from rest_framework.decorators import authentication_classes
-
-from user_profile.models import Student
+from user_profile.serializers import StudentSerializer,EvaluatorSerializer,SuperuserSerializer
+from authentication.models import User
+from authentication.permissions import IsEvaluator
+from rest_framework import status
+from rest_framework.exceptions import ValidationError
+from user_profile.models import EvaluatorModel
 # Create your views here.
 
 #view of StudentProfile
@@ -39,16 +39,28 @@ class CoachingProfile(APIView):
 
 #view of EvaluatorProfile
 class EvaluatorProfile(APIView):
-  
-  #permission_classes = [IsAuthenticated]
-
+  permission_classes=[IsAuthenticated,IsEvaluator]
   def get(self, request):
-    return Response(status=200, data = '''StudentSerializer(request.user.profile).data''')
+    
+    return Response(status=200, data = EvaluatorSerializer(request).data)
 
   def post(self, request):
-    
+        try:
+            user_profile = EvaluatorModel.objects.get(User=request.user)
+            serializer = EvaluatorSerializer(user_profile, data=request.data, partial=True)
+        except EvaluatorModel.DoesNotExist:
+            serializer = EvaluatorSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save(User=request.user)  # Associate the profile with the logged-in user
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    return Response(status = 200, data = { 'msg': 'success' })
+        if serializer.is_valid():
+            serializer.save()  # Update the existing profile
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 #view of StudentProfile
 class ReviewerProfile(APIView):
@@ -92,10 +104,10 @@ class AdminProfile(APIView):
 #view of StudentProfile
 class SuperuserProfile(APIView):
   
-  #permission_classes = [IsAuthenticated]
+  permission_classes = [IsAuthenticated]
 
   def get(self, request):
-    return Response(status=200, data = '''StudentSerializer(request.user.profile).data''')
+    return Response(status=200, data = SuperuserSerializer(request.user.profile).data)
 
   def post(self, request):
     

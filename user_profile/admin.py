@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Student,Coaching,Evaluator,Reviewer,Enquiry,Admin,Superuser
+from .models import Student,Coaching,EvaluatorModel,Reviewer,Enquiry,Admin,Superuser
 # Register your models here.
 #Students
 class StudentModelAdmin(admin.ModelAdmin):
@@ -12,7 +12,7 @@ class CoachingModelAdmin(admin.ModelAdmin):
 admin.site.register(Coaching,CoachingModelAdmin)
 
 #Evaluator
-admin.site.register(Evaluator)
+admin.site.register(EvaluatorModel)
 
 #Reviewer
 admin.site.register(Reviewer)
