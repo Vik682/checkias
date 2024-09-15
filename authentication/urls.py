@@ -3,5 +3,5 @@ from django.urls import path,include
 from .views import ValidateView
 
 urlpatterns = [
-    path('validate/', ValidateView.as_view(), name='validatae-otp'),
+    path('validate/', ValidateView.as_view(), name='validate-otp'),
     ]

@@ -1,7 +1,6 @@
 from authentication.models import USER_ROLES
 from rest_framework.permissions import BasePermission
 
-
 #permissions match
 class IsStudent(BasePermission):
     """
