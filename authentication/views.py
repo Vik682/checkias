@@ -3,21 +3,10 @@ from rest_framework.views import APIView
 from rest_framework import status
 from authentication.models import User,UserToken
 from authentication.serializers import UserSerializer
-from mail.models import OTP
 from mail.serializers import OTPSerializer
 from mail.views import validate_otp
 from rest_framework.exceptions import ValidationError
-
-
-role_s={
-    'student': 1,
-    'coaching': 2,
-    'evaluator': 3,
-    'reviewer': 4,
-    'enquiry': 5,
-    'admin': 6,
-    'superuser': 7
-}
+from authentication.models import USER_ROLES
 
 #Create View here
 class ValidateView(APIView):
@@ -32,12 +21,12 @@ class ValidateView(APIView):
             role_id = serializer_roleid.validated_data['role_id']
             try:
                 validate_otp(email, otp)
-                if role_id in ["student","coaching","evaluator","reviewer","enquiry","admin","superuser"]:
-                    if role_s[role_id] in [1, 2, 3]:
+                if role_id in USER_ROLES.keys():
+                    if role_id in ['student','coaching','evaluator']:
                         # Assuming these IDs are for roles that create or retrieve users
                         user, created = User.objects.get_or_create(
                         email=email,
-                        role=role_s[role_id])
+                        role=USER_ROLES[role_id])
                         # Create or retrieve user token
                         token, _ = UserToken.objects.get_or_create(user=user)
                         # Optional: Check if additional profile details are needed
@@ -51,7 +40,7 @@ class ValidateView(APIView):
                         try:
                             user = User.objects.get(
                                 email=email,
-                                role=role_s[role_id]
+                                role=USER_ROLES(role_id)
                                             )
                             # Create or retrieve user token
                             token, _ = UserToken.objects.get_or_create(user=user)

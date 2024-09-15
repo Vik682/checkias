@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     
 
 ]
-
 AUTH_USER_MODEL = 'authentication.User'
 
 REST_FRAMEWORK = {
@@ -142,7 +141,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Adjust as necessary
+    "http://localhost",  # Adjust as necessary
 ]
 
 

@@ -1,11 +1,12 @@
 from rest_framework import serializers
-from topperscopy.models import topper_copy,topper_review
+from topperscopy.models import TopperCopyModel,TopperReviewModel
 
-class topper_copy_serializer(serializers.ModelSerializer):
-    class meta:
-        model=topper_copy
-        fields=['Name','Paper','Rank','Optional','Photo','File','Likes','Added_date']
-class topper_review_serializer(serializers.ModelSerializer):
-    class meta:
-        model=topper_review
-        fields=['Name','Paper','Rank','Photo','Link','Added_date']
+class TopperReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TopperReviewModel
+        fields = '__all__' 
+        
+class TopperCopySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TopperCopyModel
+        fields = '__all__'  # or specify fields as needed, e.g., ['field1', 'field2']

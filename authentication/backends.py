@@ -1,4 +1,4 @@
-from .models import  UserToken
+from authentication.models import  UserToken
 from rest_framework import authentication
 from rest_framework import exceptions
 

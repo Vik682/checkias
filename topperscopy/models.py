@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 # toppers copy models.
-class topper_copy(models.Model):
+class TopperCopyModel(models.Model):
     Name=models.CharField(max_length=25)
     Paper=models.CharField(max_length=50)
     Rank=models.PositiveIntegerField()
@@ -14,7 +14,7 @@ class topper_copy(models.Model):
     def __str__(self):
         return 'MyModel: {}'.format(self.Name)
     
-class topper_review(models.Model):
+class TopperReviewModel(models.Model):
     Name=models.CharField(max_length=25)
     Paper=models.CharField(max_length=50)
     Rank=models.PositiveIntegerField()

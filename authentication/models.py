@@ -2,33 +2,30 @@ import binascii,os
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from checkias import settings
-from .managers import CustomUserManager
-
-
-ALLOWED_PROFILE_MODELS = {
-    'student': 'Student',
-    'coaching': 'Coaching',
-    'evaluator': 'Evaluator',
-    'reviewer': 'Reviewer',
-    'enquiry': 'Enquiry',
-    'admin': 'Admin',
-    'superuser': 'Superuser',
-}
-
+from authentication.managers import CustomUserManager
 
 USER_ROLES = {
-    1:'student',
-    2:'coaching',
-    3:'evaluator',
-    4:'reviewer',
-    5:'enquiry',
-    6:'admin',
-    7:'superuser',
+    'student':1,
+    'coaching':2,
+    'evaluator':3,
+    'reviewer':4,
+    'enquiry':5,
+    'admin':6,
+    'superuser':7,
 }
 
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    ROLE_CHOICES=(
+        (USER_ROLES['student'],'Student'),
+        (USER_ROLES['coaching'],'Coaching'),
+        (USER_ROLES['evaluator'],'Evaluator'),
+        (USER_ROLES['reviewer'],'Reviewer'),
+        (USER_ROLES['enquiry'],'Enquiry'),
+        (USER_ROLES['admin'],'Admin'),
+        (USER_ROLES['superuser'],'Superuser'),
+    )
     email = models.EmailField(
         max_length=255,
         unique=True,
@@ -36,8 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         primary_key=True
     )
     role = models.IntegerField(
-        choices=[(key, value.capitalize()) for key, value in USER_ROLES.items()],
-        default=1
+        choices=ROLE_CHOICES
     )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
