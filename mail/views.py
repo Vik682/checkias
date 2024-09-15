@@ -5,7 +5,10 @@ from .serializers import OTPSerializer
 import smtplib, random
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from rest_framework.exceptions import ValidationError
 from mail.credentials import smtp_port,smtp_server,username,password,sender_email
+
+
 def generate_new_otp(length=4):
     """Generate a new OTP with a specified length."""
     digits = '0123456789'
@@ -31,6 +34,17 @@ def sendmail(receiver_email, body):
         print(f"Error sending email: {e}")
         return "not-sent"
     return "sent"
+
+def validate_otp(email, otp):
+    try:
+        otp_instance = OTP.objects.get(email=email, otp=otp, is_deleted=False)
+        if otp_instance.is_valid():
+            return True
+        else:
+            raise ValidationError('OTP has expired')
+    except OTP.DoesNotExist:
+        raise ValidationError('Invalid OTP')
+
 
 class CreateOTPView(views.APIView):
     def post(self, request, *args, **kwargs):
@@ -61,11 +75,10 @@ class ValidateOTPView(views.APIView):
             otp = serializer.validated_data['otp']
             
             try:
-                otp_instance = OTP.objects.get(email=email, otp=otp, is_deleted=False)
-                if otp_instance.is_valid():
-                    return Response({'message': 'OTP is valid'}, status=status.HTTP_200_OK)
-                else:
-                    return Response({'error': 'OTP has expired'}, status=status.HTTP_400_BAD_REQUEST)
-            except OTP.DoesNotExist:
-                return Response({'error': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
+                validate_otp(email, otp)
+                return Response({'message': 'OTP is valid'}, status=status.HTTP_200_OK)
+            except ValidationError as e:
+                return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    
