@@ -1,13 +1,11 @@
-
-from django.urls import path
-from user_profile import views
-
+from django.urls import path,include
+# Urlspatterns
 urlpatterns = [
-    path('student', views.StudentProfile.as_view(), name='Student profile'),
-    path('coaching', views.CoachingProfile.as_view(), name='Coaching profile'),
-    path('evaluator', views.EvaluatorProfile.as_view(), name='Evaluator profile'),
-    path('reviewer', views.ReviewerProfile.as_view(), name='Reviewer profile'),
-    path('enquiry', views.EnquiryProfile.as_view(), name='Enquiry profile'),
-    path('admin', views.AdminProfile.as_view(), name='Admin'),
-    path('Superuser', views.SuperuserProfile.as_view(), name='Superuser profile'),
+    path('student', include('user_profile.student.urls')),
+    path('coaching', include('user_profile.coaching.urls')),
+    path('evaluator',include('user_profile.evaluator.urls')),
+    path('reviewer', include('user_profile.reviewer.urls')),
+    path('enquiry', include('user_profile.enquiry.urls')),
+    path('admin', include('user_profile.Admin.urls')),
+    path('Superuser', include('user_profile.Superuser.urls')),
 ]

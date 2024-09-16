@@ -42,6 +42,13 @@ INSTALLED_APPS = [
     'authentication',
     'corsheaders',
     'user_profile',
+    'user_profile.evaluator',
+    'user_profile.student',
+    'user_profile.coaching',
+    'user_profile.reviewer',
+    'user_profile.enquiry',
+    'user_profile.Admin',
+    'user_profile.Superuser',
     'mail',
     'topperscopy',
     
