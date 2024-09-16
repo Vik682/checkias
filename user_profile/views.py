@@ -3,7 +3,7 @@ from django.http import FileResponse
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from user_profile.serializers import StudentSerializer,EvaluatorSerializer,SuperuserSerializer
+from user_profile.serializers import StudentSerializer,EvaluatorSerializer,SuperuserSerializer,UserSerializer
 from authentication.models import User
 from authentication.permissions import IsEvaluator
 from rest_framework import status
@@ -37,12 +37,14 @@ class CoachingProfile(APIView):
 
     return Response(status = 200, data = { 'msg': 'success' })
 
+
 #view of EvaluatorProfile
 class EvaluatorProfile(APIView):
   permission_classes=[IsAuthenticated,IsEvaluator]
   def get(self, request):
+    user_serializer = UserSerializer(request.user)
     
-    return Response(status=200, data = EvaluatorSerializer(request).data)
+    return Response({'user': user_serializer.data,})
 
   def post(self, request):
         try:
@@ -60,6 +62,8 @@ class EvaluatorProfile(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 #view of StudentProfile

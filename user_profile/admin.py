@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Student,Coaching,EvaluatorModel,Reviewer,Enquiry,Admin,Superuser
+from user_profile.models import Student,Coaching,EvaluatorModel,Reviewer,Enquiry,Admin,Superuser
 # Register your models here.
 #Students
 class StudentModelAdmin(admin.ModelAdmin):

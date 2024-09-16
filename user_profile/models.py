@@ -1,8 +1,7 @@
 from django.db import models
-from authentication.models import User
 from checkias import settings
-# Create your models here.
 
+# Create your models here.
 #profile of Student
 class Student(models.Model):
   medium=[('english','English'),
@@ -30,6 +29,7 @@ class Coaching(models.Model):
 
   def __str__(self):
     return self.name
+
 
 #profile of Evaluator
 class EvaluatorModel(models.Model):
@@ -90,27 +90,26 @@ class EvaluatorModel(models.Model):
     ('tamil literature', 'Tamil Literature'),
     ('telugu literature',  'Telugu Literature'),
     ('urdu literature',  'Urdu Literature'),
-    ('english literature',  'English Literature')
-]
+    ('english literature',  'English Literature')] 
   User = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,primary_key=True)
   Name = models.CharField(max_length=50,blank=True)
-  Phone_number = models.IntegerField(blank=True,default=0)
   date_of_birth = models.DateField(null = True, blank = True)
+  Phone_number = models.IntegerField(blank=True,default=0)
   Num_of_Prelims=models.IntegerField(blank=True,default=0)
   Num_of_Mains=models.IntegerField(blank=True,default=0)
   Num_of_Interviews=models.IntegerField(blank=True,default=0)
+  profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True)
   Rank_secured=models.BooleanField(default=False)
   Medium = models.CharField(max_length=50,choices=medium,default='english')
-  Profile_image = models.ImageField(upload_to='profile_images/',blank=True)
   Optional=models.CharField(max_length=90,choices=option_sub,default='Not Selected')
   Role=models.CharField(max_length=20,choices=role,blank=True)
   Evaluation_language=models.CharField(max_length=20,choices=languages,blank=True)
-  Experience=models.TextField()
+  Experience=models.TextField(blank=True)
   Existing_std_email=models.EmailField(blank=True)
   assignment_checked=models.FileField(blank=True,upload_to='pdfs/')
   marksheet=models.FileField( upload_to='pdfs/', max_length=100,blank=True)
   def __str__(self):
-    return self.Name
+    return self.User.email
   
 #profile of Reviewer
 class Reviewer(models.Model):
@@ -153,3 +152,82 @@ class Superuser(models.Model):
 
   def __str__(self):
     return self.name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
