@@ -1,9 +1,6 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
 from .models import Evaluator
 
-#import user 
-User = get_user_model()
 
 
 # Profile of Evaluator
@@ -53,5 +50,3 @@ class EvaluatorSerializer(serializers.Serializer):
         # Save the updated instance
         instance.save()
         return instance
-class UserSerializer(serializers.Serializer):
-    email=serializers.EmailField()

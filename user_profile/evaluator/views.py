@@ -4,16 +4,22 @@ from authentication.permissions import IsEvaluator
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Evaluator
-from .serializers import UserSerializer,EvaluatorSerializer
+from .serializers import EvaluatorSerializer
 # Create your views here.
 
 #view of EvaluatorProfile
 class EvaluatorProfile(APIView):
   permission_classes=[IsAuthenticated,IsEvaluator]
   def get(self, request):
-    user_serializer = UserSerializer(request.user)
-    
-    return Response({'user': user_serializer.data,})
+    try:
+        # Fetch the Evaluator profile for the logged-in user
+        evaluator_profile = Evaluator.objects.get(User=request.user)
+        # Serialize the data
+        serializer = EvaluatorSerializer(evaluator_profile)
+        # Return the serialized data
+        return Response({'profile': serializer.data})
+    except:
+        return Response({'mssg': 'fail'})
 
   def post(self, request):
         try:

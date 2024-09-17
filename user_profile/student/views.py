@@ -11,9 +11,15 @@ from .serializers import StudentSerializer
 class StudentProfile(APIView):
   permission_classes=[IsAuthenticated,IsStudent]
   def get(self, request):
-    
-    
-    return Response({'user':200})
+    try:
+        # Fetch the Evaluator profile for the logged-in user
+        student_profile = Student.objects.get(User=request.user)
+        # Serialize the data
+        serializer = StudentSerializer(student_profile)
+        # Return the serialized data
+        return Response({'profile': serializer.data})
+    except:
+        return Response({'mssg': 'fail'})
 
   def post(self, request):
         try:
@@ -26,7 +32,7 @@ class StudentProfile(APIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        if serializer.is_valid():
+        if serializer.is_valid():             
             serializer.save()  # Update the existing profile
             return Response(serializer.data, status=status.HTTP_200_OK)
         

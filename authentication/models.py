@@ -76,7 +76,7 @@ class UserToken(models.Model):
     created = models.DateTimeField("Created", auto_now_add=True)
 
     class Meta:
-        abstract = 'rest_framework.authtoken' not in settings.INSTALLED_APPS
+        abstract = False #rest_framework.authtoken' not in settings.INSTALLED_APPS //change if cause any problem 
         verbose_name = ("User Token")
         verbose_name_plural = ("User Tokens")
 

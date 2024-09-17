@@ -4,3 +4,7 @@ storage
 */__pycache__/*
 __pycache__
 */migrations/*.py
+.venv
+.gitignore
+*/*/migrations/*/*.py
+

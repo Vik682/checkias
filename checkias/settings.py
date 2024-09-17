@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken',
+    
     'authentication',
     'corsheaders',
     'user_profile',
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'user_profile.coaching',
     'user_profile.reviewer',
     'user_profile.enquiry',
+    # 'rest_framework.authtoken',//change id cause any problem in authetication system
     'user_profile.Admin',
     'user_profile.Superuser',
     'mail',
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
     
 
 ]
+
 AUTH_USER_MODEL = 'authentication.User'
 
 REST_FRAMEWORK = {
