@@ -28,11 +28,8 @@ class CustomUserManager(BaseUserManager):
         """
         user = self.create_user(
             email,
-            role=7,
             password=password,
-            
         )
         user.is_superuser = True
-        user.is_admin = True
         user.save(using=self._db)
         return user

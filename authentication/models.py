@@ -1,7 +1,6 @@
 import binascii,os
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from checkias import settings
 from authentication.managers import CustomUserManager
 
 USER_ROLES = {
