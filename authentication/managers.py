@@ -22,12 +22,13 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email,role=None, password=None):
+    def create_superuser(self, email,role=7, password=None):
         """
         Create and return a superuser with an email and password.
         """
         user = self.create_user(
             email,
+            role,
             password=password,
         )
         user.is_superuser = True
