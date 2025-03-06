@@ -6,8 +6,8 @@ import smtplib, random
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from rest_framework.exceptions import ValidationError
-from mail.credentials import smtp_port,smtp_server,username,password,sender_email
-
+from dotenv import load_dotenv
+import os
 
 def generate_new_otp(length=4):
     """Generate a new OTP with a specified length."""
@@ -16,19 +16,20 @@ def generate_new_otp(length=4):
     return otp
 
 def sendmail(receiver_email, body):
+    load_dotenv()
     try:
         # Create the email message
         message = MIMEMultipart()
-        message['From'] = sender_email
+        message['From'] = os.getenv("SENDER_EMAIL")
         message['To'] = receiver_email
         message['Subject'] = 'Your OTP Code'
         message.attach(MIMEText(body, 'plain'))
         
         # Connect to the server and send email
-        with smtplib.SMTP(smtp_server, smtp_port) as server:
+        with smtplib.SMTP(os.getenv("SMTP_SERVER"), os.getenv("SMTP_PORT")) as server:
             server.starttls()  # Upgrade the connection to a secure encrypted SSL/TLS connection
-            server.login(username, password)
-            server.sendmail(sender_email, receiver_email, message.as_string())
+            server.login(os.getenv("USERNAME"), os.getenv("PASSWORD"))
+            server.sendmail(os.getenv("SENDER_EMAIL"), receiver_email, message.as_string())
             
     except Exception as e:
         print(f"Error sending email: {e}")
